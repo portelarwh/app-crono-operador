@@ -299,6 +299,32 @@ body.export-mode .history-table-header > div { text-align: center !important; ju
   border-radius: 2px;
   transition: width 0.08s linear;
 }
+
+/* ── Light mode — overrides de valores hardcoded ──────────────── */
+html[data-theme="light"] .live-timer { color: #1a1f2e !important; }
+html[data-theme="light"] .result-box { background: #f0f4fa !important; border-color: #c8d0e0 !important; }
+html[data-theme="light"] .history-container { background: #f8fafc !important; border-color: #c8d0e0 !important; }
+html[data-theme="light"] .history-row { background: #ffffff !important; border-bottom-color: #e2e8f0 !important; }
+html[data-theme="light"] .history-row:hover { background: #f1f5fb !important; }
+html[data-theme="light"] .history-row.dragging { background: #e8edf5 !important; }
+html[data-theme="light"] .element-desc { color: #1a1f2e !important; border-bottom-color: #c8d0e0 !important; }
+html[data-theme="light"] .element-desc:focus { background: rgba(0,0,0,0.03) !important; border-bottom-color: #007bff !important; }
+html[data-theme="light"] .drag-handle { color: #94a3b8 !important; }
+html[data-theme="light"] .history-time { color: #1a1f2e !important; }
+html[data-theme="light"] .history-perc { color: #4a5568 !important; }
+html[data-theme="light"] .study-type-banner { color: #4a5568 !important; }
+html[data-theme="light"] .chart-title { color: #4a5568 !important; }
+html[data-theme="light"] .result-title { color: #4a5568 !important; }
+html[data-theme="light"] .result-sub { color: #4a5568 !important; }
+html[data-theme="light"] .info-icon,
+html[data-theme="light"] .info-inline { background: rgba(0,0,0,0.07) !important; color: #4a5568 !important; }
+html[data-theme="light"] .btn-add-manual { border-color: #c8d0e0 !important; color: #4a5568 !important; }
+html[data-theme="light"] .btn-add-manual:hover { border-color: #007bff !important; color: #007bff !important; }
+html[data-theme="light"] .fixed-bottom { background: linear-gradient(transparent, #f0f3f9 30%) !important; }
+html[data-theme="light"] .app-footer { color: #4a5568 !important; }
+html[data-theme="light"] .footer-separator { color: #94a3b8 !important; }
+html[data-theme="light"] .btn-reset { background-color: #94a3b8 !important; }
+html[data-theme="light"] .setup-na { background-color: #94a3b8 !important; border-color: #94a3b8 !important; }
 </style>
 </head>
 <body>
@@ -948,27 +974,43 @@ document.addEventListener('DOMContentLoaded', function(){ bindStaticButtons(); l
 try{
 var k='operix_theme_v1';
 var saved=localStorage.getItem(k);
-if(saved==='light') document.documentElement.setAttribute('data-theme','light');
+// Padrão sempre escuro: se não tiver valor salvo, força dark explicitamente
+if(saved === null || saved === undefined){
+  localStorage.setItem(k, 'dark');
+  saved = 'dark';
+}
+if(saved === 'light'){
+  document.documentElement.setAttribute('data-theme','light');
+} else {
+  document.documentElement.removeAttribute('data-theme');
+}
 function render(){
-var btn=document.getElementById('op-theme-btn');
-if(!btn) return;
-btn.textContent=document.documentElement.getAttribute('data-theme')==='light'?'🌙':'☀️';
+  var btn=document.getElementById('op-theme-btn');
+  if(!btn) return;
+  var isLight = document.documentElement.getAttribute('data-theme') === 'light';
+  btn.textContent = isLight ? '🌙' : '☀️';
+  btn.title = isLight ? 'Tema claro ativo — clique para escuro' : 'Tema escuro ativo — clique para claro';
 }
 window.__opToggleTheme=function(){
-var cur=document.documentElement.getAttribute('data-theme')==='light';
-if(cur){ document.documentElement.removeAttribute('data-theme'); localStorage.setItem(k,'dark'); }
-else{ document.documentElement.setAttribute('data-theme','light'); localStorage.setItem(k,'light'); }
-render();
+  var cur=document.documentElement.getAttribute('data-theme')==='light';
+  if(cur){
+    document.documentElement.removeAttribute('data-theme');
+    localStorage.setItem(k,'dark');
+  } else {
+    document.documentElement.setAttribute('data-theme','light');
+    localStorage.setItem(k,'light');
+  }
+  render();
 };
 document.addEventListener('DOMContentLoaded',function(){
-if(!document.getElementById('op-theme-btn')){
-var b=document.createElement('button');
-b.id='op-theme-btn'; b.type='button';
-b.setAttribute('aria-label','Alternar tema');
-b.onclick=window.__opToggleTheme;
-document.body.appendChild(b);
-}
-render();
+  if(!document.getElementById('op-theme-btn')){
+    var b=document.createElement('button');
+    b.id='op-theme-btn'; b.type='button';
+    b.setAttribute('aria-label','Alternar tema claro/escuro');
+    b.onclick=window.__opToggleTheme;
+    document.body.appendChild(b);
+  }
+  render();
 });
 }catch(e){}
 })();
