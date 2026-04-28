@@ -223,6 +223,8 @@ padding: 3px 6px !important; min-height: 0 !important; margin-bottom: 0 !importa
 .export-mode .is-va { background-color: #28a745 !important; color: white !important; border: 1px solid #28a745 !important; }
 .export-mode .is-nva { background-color: #dc3545 !important; color: white !important; border: 1px solid #dc3545 !important; }
 .export-mode .is-bnva { background-color: #ffc107 !important; color: #000 !important; border: 1px solid #ffc107 !important; }
+.app-version { position: absolute; top: 8px; right: 10px; font-size: 0.75rem; font-weight: 700; color: var(--text-muted); opacity: 0.9; pointer-events: none; z-index: 2000; }
+body.export-mode .app-version { display: none !important; }
 .goal-wrapper { display: flex; justify-content: center; margin: 6px 0 12px 0; }
 .goal-wrapper .input-group { width: 62%; }
 .goal-label { font-size: 0.65rem; }
@@ -232,10 +234,20 @@ body.export-mode .gantt-idx { display: block !important; margin-top: 4px; font-s
 body.export-mode .desc-placeholder { font-style: italic !important; font-weight: 400 !important; }
 body.export-mode .history-time, body.export-mode .history-perc { font-family: monospace !important; font-variant-numeric: tabular-nums !important; text-align: center !important; justify-self: center !important; }
 body.export-mode .history-table-header > div { text-align: center !important; justify-self: center !important; }
+.export-mode .app-footer { display: none !important; }
+
+/* ── App footer ─────────────────────────────────────────────────── */
+.app-footer { text-align: center; margin-top: 16px; margin-bottom: 24px; font-size: 0.82rem; color: var(--text-muted); }
+.footer-content { display: inline-flex; align-items: center; flex-wrap: wrap; justify-content: center; gap: 6px; }
+.footer-link { display: inline-flex; align-items: center; gap: 4px; text-decoration: none; font-weight: 600; }
+.footer-link.linkedin { color: #0a66c2; }
+.footer-link.whatsapp { color: #25D366; }
+.footer-icon svg { width: 13px; height: 13px; fill: currentColor; vertical-align: middle; }
+.footer-separator { color: var(--text-muted); }
+@media print { .app-footer { display: none !important; } }
 </style>
 </head>
 <body>
-
 <div class="modal-overlay" id="manualModal">
 <div class="modal-content">
 <div class="modal-title" id="modalMainTitle">➕ Inserir/Editar Etapa</div>
@@ -384,7 +396,7 @@ body.export-mode .history-table-header > div { text-align: center !important; ju
 </div>
 </div>
 
-    <footer class="app-footer" role="contentinfo" style="margin-top:auto;">
+    <footer class="app-footer" role="contentinfo">
         <span class="footer-content">
             Desenvolvido por
             <a class="footer-link linkedin"
@@ -408,7 +420,6 @@ body.export-mode .history-table-header > div { text-align: center !important; ju
             </a>
         </span>
     </footer>
-</div>
 
 <div class="fixed-bottom">
 <button id="btnLapPessoa" class="btn-lap-pessoa" onclick="recordElement('pessoa')" disabled><span class="lap-icon">🧍‍♂️</span><span class="lap-text">Humano</span></button>
