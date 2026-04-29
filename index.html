@@ -750,7 +750,7 @@ if (navigator.share) {
 return Promise.resolve().then(function(){
 if (!navigator.canShare || navigator.canShare({ files: [pngFile] })) {
 return navigator.share({ title: 'Cronoanálise - ' + equipName, text: shareText, files: [pngFile] });
-}
+} else { downloadBlob(pngBlob, 'Balanceamento_' + safeBase + '.png'); window.open('https://wa.me/?text=' + encodeURIComponent(shareText + '\n\n📎 O PNG do relatório foi baixado no aparelho para anexar manualmente.'), '_blank'); }
 }).catch(function(){ downloadBlob(pngBlob, 'Balanceamento_' + safeBase + '.png'); window.open('https://wa.me/?text=' + encodeURIComponent(shareText + '\n\n📎 O PNG do relatório foi baixado no aparelho para anexar manualmente.'), '_blank'); alert('O WhatsApp recebeu o resumo executivo. O PNG do relatório foi baixado no aparelho para anexar manualmente.'); });
 }
 downloadBlob(pngBlob, 'Balanceamento_' + safeBase + '.png'); window.open('https://wa.me/?text=' + encodeURIComponent(shareText + '\n\n📎 O PNG do relatório foi baixado no aparelho para anexar manualmente.'), '_blank');
