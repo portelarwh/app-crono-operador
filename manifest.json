@@ -1,6 +1,6 @@
 {
   "name": "Cronoanálise Operador",
-  "short_name": "Crono Operador",
+  "short_name": "Operador",
   "description": "Cronoanálise homem-máquina para estudo de tempos, VA/NVA/BNVA, setup e balanceamento operacional.",
   "start_url": "./",
   "scope": "./",
