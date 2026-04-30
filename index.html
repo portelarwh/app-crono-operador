@@ -57,7 +57,8 @@ background:#fff; color:#1a1f2e; border-color:#c8d0e0;
 box-shadow:0 2px 8px rgba(0,0,0,.15);
 }
 @media print { #op-theme-btn{ display:none !important; } }
-
+html { overflow-x: hidden; }
+  
 body {
 font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 padding: 8px;
@@ -69,6 +70,7 @@ user-select: none;
 -webkit-user-select: none;
 padding-bottom: 120px;
 position: relative;
+overflow-x: hidden;
 }
 
 #print-wrapper { display: flex; flex-direction: column; gap: 0; width: 100%; }
@@ -223,7 +225,7 @@ padding: 3px 6px !important; min-height: 0 !important; margin-bottom: 0 !importa
 .export-mode .is-va { background-color: #28a745 !important; color: white !important; border: 1px solid #28a745 !important; }
 .export-mode .is-nva { background-color: #dc3545 !important; color: white !important; border: 1px solid #dc3545 !important; }
 .export-mode .is-bnva { background-color: #ffc107 !important; color: #000 !important; border: 1px solid #ffc107 !important; }
-.app-version { position: absolute; top: 8px; right: 10px; font-size: 0.75rem; font-weight: 700; color: var(--text-muted); opacity: 0.9; pointer-events: none; z-index: 2000; }
+.app-version { position: fixed; top: 10px; right: 54px; font-size: 0.75rem; font-weight: 700; color: var(--text-muted); opacity: 0.9; pointer-events: none; z-index: 2000; }
 body.export-mode .app-version { display: none !important; }
 .goal-wrapper { display: flex; justify-content: center; margin: 6px 0 12px 0; }
 .goal-wrapper .input-group { width: 62%; }
@@ -327,11 +329,14 @@ html[data-theme="light"] .btn-reset { background-color: #94a3b8 !important; }
 html[data-theme="light"] .setup-na { background-color: #94a3b8 !important; border-color: #94a3b8 !important; }
 </style>
 </head>
+  <span id="appVersion" class="app-version"></span>
+<script src="operator-whatsapp-share-fix.js" defer></script>
+<script src="operator-pwa-update.js" defer></script>
 <body>
 
 <div id="splashScreen" role="status" aria-label="Carregando Cronoanálise Operador">
   <div class="splash-content">
-    <div class="splash-brand-row">OPERIX · <span id="splashVersion">v3.0.0</span></div>
+    <div class="splash-brand-row">OPERIX · <span id="splashVersion">v3.0.2</span></div>
     <div class="splash-icon-wrap">
       <img class="splash-app-icon" src="assets/Icon-512.png" alt="Cronoanálise Operador"
            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
