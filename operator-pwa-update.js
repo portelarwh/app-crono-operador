@@ -3,7 +3,7 @@
 (function(){
   window.APP_VERSION = 'v3.0.3';
  var _verEl = document.getElementById('appVersion');
-  if(_verEl) _verEl.textContent = 'v3.0.2';
+  if(_verEl) _verEl.textContent = 'v3.0.3';
   var refreshing = false;
   var waitingWorker = null;
 
