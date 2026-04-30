@@ -2,6 +2,7 @@
 
 (function(){
   var APP_VERSION = 'v3.0.4';
+  var UPDATE_ACK_KEY = 'crono_operador_update_ack_' + APP_VERSION;
   window.APP_VERSION = APP_VERSION;
 
   function setVersionText(){
@@ -16,6 +17,7 @@
 
   var refreshing = false;
   var waitingWorker = null;
+  var updateChecked = false;
 
   function injectStyles(){
     if(document.getElementById('operator-update-styles')) return;
@@ -56,7 +58,17 @@
     document.head.appendChild(style);
   }
 
+  function markUpdateAcknowledged(){
+    try { sessionStorage.setItem(UPDATE_ACK_KEY, '1'); } catch(e) {}
+  }
+
+  function wasUpdateAcknowledged(){
+    try { return sessionStorage.getItem(UPDATE_ACK_KEY) === '1'; } catch(e) { return false; }
+  }
+
   function showUpdateToast(worker){
+    if(wasUpdateAcknowledged()) return;
+
     waitingWorker = worker || waitingWorker;
     if(document.getElementById('operatorUpdateToast')) return;
 
@@ -77,6 +89,7 @@
     var btn = document.getElementById('operatorUpdateNow');
     if(btn){
       btn.addEventListener('click', function(){
+        markUpdateAcknowledged();
         btn.disabled = true;
         btn.textContent = 'Atualizando...';
         if(waitingWorker){
@@ -108,13 +121,19 @@
     });
 
     window.addEventListener('load', function(){
-      navigator.serviceWorker.register('sw.js?v=' + encodeURIComponent(APP_VERSION), { updateViaCache: 'none' }).then(function(reg){
-        if(reg.waiting && navigator.serviceWorker.controller){
-          showUpdateToast(reg.waiting);
-        }
+      navigator.serviceWorker.register('sw.js', { updateViaCache: 'none' }).then(function(reg){
         if(reg.installing) watch(reg.installing);
         reg.addEventListener('updatefound', function(){ watch(reg.installing); });
-        reg.update().catch(function(err){ console.warn('[Crono Operador] Verificação de atualização falhou:', err); });
+
+        /*
+          Verifica atualização uma única vez por abertura do app.
+          Não mostra toast apenas porque existe reg.waiting antigo; o toast aparece
+          somente quando um novo worker instala durante esta sessão.
+        */
+        if(!updateChecked){
+          updateChecked = true;
+          reg.update().catch(function(err){ console.warn('[Crono Operador] Verificação de atualização falhou:', err); });
+        }
       }).catch(function(err){
         console.warn('[Crono Operador] Service Worker falhou:', err);
       });
