@@ -43,20 +43,41 @@ html[data-theme="light"] table, html[data-theme="light"] th, html[data-theme="li
 color:#1a1f2e !important; border-color:#c8d0e0 !important;
 }
 html[data-theme="light"] .modal-content{ background:#ffffff !important; color:#1a1f2e !important; }
+.app-header {
+  position: fixed; top: 8px; right: 10px; z-index: 99999;
+  display: flex; align-items: center; gap: 8px;
+  padding: 4px 8px;
+  background: rgba(30,30,30,0.88);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 20px;
+  backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.35);
+}
+html[data-theme="light"] .app-header {
+  background: rgba(255,255,255,0.92);
+  border-color: #c8d0e0;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+.app-version {
+  font-size: 0.72rem; font-weight: 700;
+  color: var(--text-muted); letter-spacing: 0.3px;
+  user-select: none; pointer-events: none;
+}
+#op-theme-btn {
+  width: 28px; height: 28px; border-radius: 50%;
+  background: rgba(0,0,0,0.3); color: #fff;
+  border: 1px solid rgba(255,255,255,0.2);
+  font-size: 15px; cursor: pointer; padding: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-family: -apple-system, sans-serif;
+  position: static; left: auto; top: auto;
+}
+html[data-theme="light"] #op-theme-btn {
+  background: rgba(0,0,0,0.07); color: #1a1f2e; border-color: #c8d0e0;
+}
+@media print { .app-header { display: none !important; } }
+body.export-mode .app-header { display: none !important; }
 
-#op-theme-btn{
-position:fixed; top:8px; right:8px; left:auto; z-index:99999;
-width:38px; height:38px; border-radius:50%;
-background:rgba(0,0,0,.55); color:#fff; border:1px solid rgba(255,255,255,.25);
-font-size:18px; cursor:pointer; padding:0;
-display:flex; align-items:center; justify-content:center;
-font-family:-apple-system,sans-serif;
-}
-html[data-theme="light"] #op-theme-btn{
-background:#fff; color:#1a1f2e; border-color:#c8d0e0;
-box-shadow:0 2px 8px rgba(0,0,0,.15);
-}
-@media print { #op-theme-btn{ display:none !important; } }
 html { overflow-x: hidden; }
   
 body {
@@ -225,8 +246,7 @@ padding: 3px 6px !important; min-height: 0 !important; margin-bottom: 0 !importa
 .export-mode .is-va { background-color: #28a745 !important; color: white !important; border: 1px solid #28a745 !important; }
 .export-mode .is-nva { background-color: #dc3545 !important; color: white !important; border: 1px solid #dc3545 !important; }
 .export-mode .is-bnva { background-color: #ffc107 !important; color: #000 !important; border: 1px solid #ffc107 !important; }
-.app-version { position: fixed; top: 10px; right: 54px; font-size: 0.75rem; font-weight: 700; color: var(--text-muted); opacity: 0.9; pointer-events: none; z-index: 2000; }
-body.export-mode .app-version { display: none !important; }
+
 .goal-wrapper { display: flex; justify-content: center; margin: 6px 0 12px 0; }
 .goal-wrapper .input-group { width: 62%; }
 .goal-label { font-size: 0.65rem; }
@@ -329,7 +349,10 @@ html[data-theme="light"] .btn-reset { background-color: #94a3b8 !important; }
 html[data-theme="light"] .setup-na { background-color: #94a3b8 !important; border-color: #94a3b8 !important; }
 </style>
 </head>
+<div class="app-header" id="appHeader">
   <span id="appVersion" class="app-version"></span>
+  <button id="op-theme-btn" type="button" aria-label="Alternar tema">☀️</button>
+</div>
 <script src="operator-whatsapp-share-fix.js" defer></script>
 <script src="operator-pwa-update.js" defer></script>
 <body>
