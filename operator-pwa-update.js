@@ -1,9 +1,19 @@
 'use strict';
 
 (function(){
-  window.APP_VERSION = 'v3.0.3';
- var _verEl = document.getElementById('appVersion');
-  if(_verEl) _verEl.textContent = 'v3.0.3';
+  var APP_VERSION = 'v3.0.4';
+  window.APP_VERSION = APP_VERSION;
+
+  function setVersionText(){
+    var headerVersion = document.getElementById('appVersion');
+    if(headerVersion) headerVersion.textContent = APP_VERSION;
+
+    var splashVersion = document.getElementById('splashVersion');
+    if(splashVersion) splashVersion.textContent = APP_VERSION;
+  }
+
+  setVersionText();
+
   var refreshing = false;
   var waitingWorker = null;
 
@@ -88,6 +98,7 @@
   }
 
   function register(){
+    setVersionText();
     if(!('serviceWorker' in navigator)) return;
 
     navigator.serviceWorker.addEventListener('controllerchange', function(){
@@ -97,7 +108,7 @@
     });
 
     window.addEventListener('load', function(){
-      navigator.serviceWorker.register('sw.js').then(function(reg){
+      navigator.serviceWorker.register('sw.js?v=' + encodeURIComponent(APP_VERSION), { updateViaCache: 'none' }).then(function(reg){
         if(reg.waiting && navigator.serviceWorker.controller){
           showUpdateToast(reg.waiting);
         }
